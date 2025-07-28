@@ -8,6 +8,7 @@
     <type fullname="CharacterModel" preserve="all" />
     <type fullname="CurveParameters" preserve="all" />
     <type fullname="DeckManager" preserve="all" />
+    <type fullname="Erc721Balance" preserve="all" />
     <type fullname="GameManager" preserve="all" />
     <type fullname="GameOverUI" preserve="all" />
     <type fullname="HeroCardMapManager" preserve="all" />
@@ -25,6 +26,7 @@
     <type fullname="Map.MapPlayerTracker" preserve="all" />
     <type fullname="Map.MapView" preserve="all" />
     <type fullname="Map.NodeBlueprint" preserve="all" />
+    <type fullname="Mint" preserve="all" />
     <type fullname="PlayingCardVisual" preserve="all" />
     <type fullname="PopUpText" preserve="all" />
     <type fullname="ShaderCode" preserve="all" />
