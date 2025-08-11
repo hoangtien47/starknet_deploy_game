@@ -73,7 +73,7 @@
       // Set this to false if you want to decouple this synchronization from
       // happening inside the engine, and you would instead like to size up
       // the canvas DOM size and WebGL render target sizes yourself.
-      config.matchWebGLToCanvasSize = false;
+      // config.matchWebGLToCanvasSize = false;
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
@@ -91,16 +91,10 @@
 
         unityShowBanner('WebGL builds are not supported on mobile devices.');
       } else {
-        // Desktop style: Auto fullscreen on load
-        canvas.style.width = "100vw";
-        canvas.style.height = "100vh";
-        container.style.position = 'fixed';
-        container.style.top = '0';
-        container.style.left = '0';
-        container.style.width = '100vw';
-        container.style.height = '100vh';
-        container.style.transform = 'none';
-        container.className = "unity-fullscreen";
+        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
+
+        canvas.style.width = "960px";
+        canvas.style.height = "600px";
       }
 
       loadingBar.style.display = "block";
@@ -114,68 +108,9 @@
         }).then((unityInstance) => {
           myGameInstance = unityInstance;
           loadingBar.style.display = "none";
-          
-          // Auto-start in fullscreen mode
-          unityInstance.SetFullscreen(1);
-          
-          // Enhanced fullscreen functionality for manual toggle
           fullscreenButton.onclick = () => {
-            // Request fullscreen for the container
-            const element = container;
-            
-            if (element.requestFullscreen) {
-              element.requestFullscreen();
-            } else if (element.webkitRequestFullscreen) {
-              element.webkitRequestFullscreen();
-            } else if (element.mozRequestFullScreen) {
-              element.mozRequestFullScreen();
-            } else if (element.msRequestFullscreen) {
-              element.msRequestFullscreen();
-            }
-            
-            // Set Unity to fullscreen mode
             unityInstance.SetFullscreen(1);
           };
-
-          // Handle fullscreen change events
-          const handleFullscreenChange = () => {
-            const isFullscreen = !!(document.fullscreenElement || 
-                                   document.webkitFullscreenElement || 
-                                   document.mozFullScreenElement || 
-                                   document.msFullscreenElement);
-            
-            if (isFullscreen) {
-              // In fullscreen mode
-              container.style.position = 'fixed';
-              container.style.top = '0';
-              container.style.left = '0';
-              container.style.width = '100vw';
-              container.style.height = '100vh';
-              container.style.transform = 'none';
-              container.style.zIndex = '9999';
-              
-              canvas.style.width = '100vw';
-              canvas.style.height = '100vh';
-            } else {
-              // Keep fullscreen styling even when browser fullscreen is off
-              container.style.position = 'fixed';
-              container.style.top = '0';
-              container.style.left = '0';
-              container.style.width = '100vw';
-              container.style.height = '100vh';
-              container.style.transform = 'none';
-              
-              canvas.style.width = '100vw';
-              canvas.style.height = '100vh';
-            }
-          };
-
-          // Add event listeners for fullscreen changes
-          document.addEventListener('fullscreenchange', handleFullscreenChange);
-          document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-          document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-          document.addEventListener('MSFullscreenChange', handleFullscreenChange);
-          
         }).catch((message) => {
           alert(message);
         });
