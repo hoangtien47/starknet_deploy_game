@@ -73,7 +73,7 @@
       // Set this to false if you want to decouple this synchronization from
       // happening inside the engine, and you would instead like to size up
       // the canvas DOM size and WebGL render target sizes yourself.
-      // config.matchWebGLToCanvasSize = false;
+      config.matchWebGLToCanvasSize = false;
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
@@ -91,10 +91,16 @@
 
         unityShowBanner('WebGL builds are not supported on mobile devices.');
       } else {
-        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
-
-        canvas.style.width = "960px";
-        canvas.style.height = "600px";
+        // Desktop style: Auto fullscreen on load
+        canvas.style.width = "100vw";
+        canvas.style.height = "100vh";
+        container.style.position = 'fixed';
+        container.style.top = '0';
+        container.style.left = '0';
+        container.style.width = '100vw';
+        container.style.height = '100vh';
+        container.style.transform = 'none';
+        container.className = "unity-fullscreen";
       }
 
       loadingBar.style.display = "block";
@@ -109,7 +115,10 @@
           myGameInstance = unityInstance;
           loadingBar.style.display = "none";
           
-          // Enhanced fullscreen functionality
+          // Auto-start in fullscreen mode
+          unityInstance.SetFullscreen(1);
+          
+          // Enhanced fullscreen functionality for manual toggle
           fullscreenButton.onclick = () => {
             // Request fullscreen for the container
             const element = container;
@@ -148,19 +157,16 @@
               canvas.style.width = '100vw';
               canvas.style.height = '100vh';
             } else {
-              // Exit fullscreen mode - restore original styling
-              if (!/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-                container.style.position = 'absolute';
-                container.style.left = '50%';
-                container.style.top = '50%';
-                container.style.transform = 'translate(-50%, -50%)';
-                container.style.width = 'auto';
-                container.style.height = 'auto';
-                container.style.zIndex = 'auto';
-                
-                canvas.style.width = '960px';
-                canvas.style.height = '600px';
-              }
+              // Keep fullscreen styling even when browser fullscreen is off
+              container.style.position = 'fixed';
+              container.style.top = '0';
+              container.style.left = '0';
+              container.style.width = '100vw';
+              container.style.height = '100vh';
+              container.style.transform = 'none';
+              
+              canvas.style.width = '100vw';
+              canvas.style.height = '100vh';
             }
           };
 
